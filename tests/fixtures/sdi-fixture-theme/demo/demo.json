@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "theme": "sdi-fixture-theme",
+  "requires": ["woocommerce"],
+  "images": [
+    {"id": "hero", "file": "images/hero.jpg", "alt": "تصویر اصلی", "title": "هیرو"},
+    {"id": "coat", "file": "images/coat.png", "alt": "پالتو", "title": "پالتو"},
+    {"id": "evil", "file": "../../../../../../etc/hostname", "alt": "must be rejected", "title": "evil"}
+  ],
+  "product_attributes": [
+    {"slug": "size", "name": "سایز", "terms": ["S", "M", "L", "XL"]},
+    {"slug": "color", "name": "رنگ", "terms": [
+      {"name": "کاراملی", "slug": "caramel", "hex": "#B07A4F"},
+      {"name": "مشکی", "slug": "black", "hex": "#1E1E1E"}
+    ]}
+  ],
+  "product_categories": [
+    {"slug": "coats", "name": "پالتو و کاپشن", "image": "coat"},
+    {"slug": "winter-coats", "name": "پالتو زمستانی", "parent": "coats"}
+  ],
+  "products": [
+    {
+      "slug": "long-wool-coat", "name": "پالتو پشمی بلند", "type": "variable",
+      "regular_price": 4850000, "sale_price": 3990000,
+      "short_description": "پالتوی گرم و سبک.",
+      "description": "<p>توضیح کامل</p><img src=\"{{image_url:hero}}\" alt=\"\">",
+      "categories": ["coats", "winter-coats"], "tags": ["زمستان", "پشمی"],
+      "image": "coat", "gallery": ["hero"],
+      "featured": true, "badge": "جدید",
+      "attributes": {"size": ["S", "M", "L", "XL"], "color": ["caramel", "black"]},
+      "out_of_stock": [{"size": "XL"}, {"size": "S", "color": "black"}]
+    },
+    {
+      "slug": "basic-scarf", "name": "شال ساده", "type": "simple",
+      "regular_price": 650000, "sale_price": null,
+      "short_description": "شال نخی.", "description": "<p>شال</p>",
+      "categories": ["coats"], "tags": ["زمستان"],
+      "image": "hero", "gallery": [],
+      "featured": false, "badge": "",
+      "attributes": {"color": ["black"]},
+      "out_of_stock": []
+    },
+    {
+      "slug": "sold-out-gloves", "name": "دستکش", "type": "simple",
+      "regular_price": 300000, "sale_price": null,
+      "categories": ["coats"], "image": "coat",
+      "out_of_stock": true
+    }
+  ],
+  "pages": [
+    {"slug": "home", "title": "خانه", "content": "<!-- wp:paragraph --><p>خوش آمدید <img src=\"{{image_url:hero}}\" alt=\"\"></p><!-- /wp:paragraph -->", "role": "front", "template": ""},
+    {"slug": "journal", "title": "مجله", "content": "", "role": "blog", "template": ""},
+    {"slug": "shop", "title": "فروشگاه", "content": "", "role": "shop", "template": ""},
+    {"slug": "cart", "title": "سبد خرید", "content": "", "role": "cart", "template": ""},
+    {"slug": "checkout", "title": "تسویه حساب", "content": "", "role": "checkout", "template": ""},
+    {"slug": "my-account", "title": "حساب کاربری", "content": "", "role": "myaccount", "template": ""},
+    {"slug": "about", "title": "درباره ما", "content": "<p>درباره</p>", "role": "", "template": ""}
+  ],
+  "posts": [
+    {"slug": "winter-style", "title": "استایل زمستانی", "excerpt": "خلاصه", "content": "<p>متن <img src=\"{{image_url:coat}}\" alt=\"\"></p>", "image": "hero", "categories": ["سبک زندگی"]},
+    {"slug": "care-guide", "title": "راهنمای نگهداری", "excerpt": "خلاصه ۲", "content": "<p>متن ۲</p>", "image": "coat", "categories": ["سبک زندگی", "راهنما"]}
+  ],
+  "menus": [
+    {"location": "primary", "name": "منوی اصلی", "items": [
+      {"type": "page", "ref": "home"},
+      {"type": "shop"},
+      {"type": "product_cat", "ref": "coats", "children": [
+        {"type": "product_cat", "ref": "winter-coats"}
+      ]},
+      {"type": "page", "ref": "about"},
+      {"type": "custom", "title": "تماس", "url": "#"},
+      {"type": "page", "ref": "does-not-exist"}
+    ]},
+    {"location": "footer", "name": "منوی پاورقی", "items": [
+      {"type": "page", "ref": "journal"},
+      {"type": "custom", "title": "اینستاگرام", "url": "https://instagram.com/"}
+    ]}
+  ],
+  "coupons": [
+    {"code": "SAYEH10", "discount_type": "percent", "amount": 10, "description": "ده درصد تخفیف"},
+    {"code": "FIX50", "discount_type": "fixed_cart", "amount": 500000, "description": "پنجاه هزار تومان"}
+  ],
+  "theme_mods": {
+    "saayeh_hero_image": "@image:hero",
+    "saayeh_hero_title": "سادگی، امضای توست",
+    "saayeh_gallery": ["@image:hero", "@image:coat"],
+    "saayeh_hero_html": "<img data-id=\"@image:coat\">"
+  },
+  "options": {
+    "woocommerce_currency": "IRT",
+    "woocommerce_default_country": "IR",
+    "woocommerce_price_num_decimals": 0,
+    "woocommerce_free_shipping_threshold_note": "",
+    "sdi_fixture_logo_id": "@image:coat",
+    "admin_email": "attacker@example.com"
+  },
+  "shipping": {
+    "zone": "ایران",
+    "methods": [
+      {"type": "flat_rate", "title": "پست پیشتاز", "cost": 90000},
+      {"type": "free_shipping", "title": "ارسال رایگان", "min_amount": 3000000}
+    ]
+  }
+}

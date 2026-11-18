@@ -1,0 +1,7 @@
+tests
+.git
+.github
+.gitignore
+.distignore
+.DS_Store
+node_modules
