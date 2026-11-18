@@ -242,6 +242,26 @@ class SDI_Remover {
 
 		$this->restore_backup();
 
+		// Restore WooCommerce pages whose block content was swapped for shortcodes during import.
+		$converted = get_posts(
+			array(
+				'post_type'      => 'page',
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'meta_key'       => '_sdi_converted_by', // phpcs:ignore WordPress.DB.SlowDBQuery
+				'meta_value'     => $this->theme, // phpcs:ignore WordPress.DB.SlowDBQuery
+			)
+		);
+		foreach ( $converted as $pid ) {
+			$original = (string) get_post_meta( $pid, '_sdi_original_content', true );
+			if ( '' !== $original ) {
+				wp_update_post( wp_slash( array( 'ID' => $pid, 'post_content' => $original ) ) );
+			}
+			delete_post_meta( $pid, '_sdi_original_content' );
+			delete_post_meta( $pid, '_sdi_converted_by' );
+		}
+
 		SDI_State::registry_clear( $this->theme );
 		SDI_State::set_imported( $this->theme, null );
 		$run = SDI_State::get_run();

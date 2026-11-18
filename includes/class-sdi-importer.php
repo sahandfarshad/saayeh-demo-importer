@@ -873,6 +873,15 @@ class SDI_Importer {
 					if ( $existing > 0 && 'page' === get_post_type( $existing ) && 'trash' !== get_post_status( $existing ) ) {
 						/* translators: %s: page */
 						$this->log( sprintf( __( 'برگه‌ی ووکامرس «%s» از قبل وجود دارد و همان استفاده شد.', 'saayeh-demo-importer' ), get_the_title( $existing ) ) );
+						// Block-based cart/checkout/account pages: switch to the classic shortcode the theme supports, keeping the original for restore.
+						$current = (string) get_post_field( 'post_content', $existing );
+						$classic = $this->role_default_content( $role );
+						if ( 'shop' !== $role && '' !== $classic && false !== strpos( $current, 'wp:woocommerce/' ) && '' === (string) get_post_meta( $existing, '_sdi_original_content', true ) ) {
+							update_post_meta( $existing, '_sdi_original_content', wp_slash( $current ) );
+							update_post_meta( $existing, '_sdi_converted_by', $this->theme );
+							wp_update_post( wp_slash( array( 'ID' => $existing, 'post_content' => $classic ) ) );
+							$this->log( sprintf( __( 'برگه‌ی «%s» از بلوک به شورت‌کد کلاسیک تبدیل شد (برای سازگاری با قالب و درگاه زرین‌پال).', 'saayeh-demo-importer' ), get_the_title( $existing ) ), 'success' );
+						}
 						return; // Not flagged, so removal leaves it alone; role option already points to it.
 					}
 				}
